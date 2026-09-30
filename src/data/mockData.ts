@@ -2,6 +2,7 @@ import type {
   DebrisSite, SalvagePassport, RecoveryRequirement,
   MaterialMatch, RecoveryOperation, AppNotification, DashboardKPIs
 } from '../types';
+import { DEMO_CODES } from '../utils/detectionCode';
 
 // ============================================================
 // ReBuild – Mock Data  (Demo Scenario: Bhavapur Earthquake)
@@ -197,7 +198,7 @@ export const debrisSites: DebrisSite[] = [
 // ─── Salvage Passports ─────────────────────────────────────────
 export const salvagePassports: SalvagePassport[] = [
   {
-    batchId: 'RB-2026-00482',
+    batchId: DEMO_CODES.CG_STEEL,
     material: 'Steel Sections',
     estimatedQuantity: '1.2',
     quantityUnit: 'tonnes',
@@ -229,7 +230,7 @@ export const salvagePassports: SalvagePassport[] = [
     updatedAt: '2026-09-15T09:00:00Z',
   },
   {
-    batchId: 'RB-2026-00391',
+    batchId: DEMO_CODES.CG_STEEL_BEAMS,
     material: 'Structural Steel Beams',
     estimatedQuantity: '2.8',
     quantityUnit: 'tonnes',
@@ -264,7 +265,7 @@ export const salvagePassports: SalvagePassport[] = [
     updatedAt: '2026-09-15T14:00:00Z',
   },
   {
-    batchId: 'RB-2026-00517',
+    batchId: DEMO_CODES.CG_TIMBER,
     material: 'Timber Beams',
     estimatedQuantity: '0.9',
     quantityUnit: 'tonnes',
@@ -294,7 +295,7 @@ export const salvagePassports: SalvagePassport[] = [
     updatedAt: '2026-09-15T08:00:00Z',
   },
   {
-    batchId: 'RB-2026-00602',
+    batchId: DEMO_CODES.MP_BRICK,
     material: 'Brick / Masonry Units',
     estimatedQuantity: '5.4',
     quantityUnit: 'tonnes',
@@ -326,7 +327,7 @@ export const salvagePassports: SalvagePassport[] = [
     updatedAt: '2026-09-15T10:00:00Z',
   },
   {
-    batchId: 'RB-2026-00448',
+    batchId: DEMO_CODES.MH_CONCRETE,
     material: 'Concrete Rubble (Crushed)',
     estimatedQuantity: '18.0',
     quantityUnit: 'tonnes',
@@ -358,7 +359,7 @@ export const salvagePassports: SalvagePassport[] = [
     updatedAt: '2026-09-15T15:00:00Z',
   },
   {
-    batchId: 'RB-2026-00581',
+    batchId: DEMO_CODES.OD_WASTE,
     material: 'Mixed Plastic / Waste',
     estimatedQuantity: '1.1',
     quantityUnit: 'tonnes',
@@ -458,7 +459,7 @@ export const recoveryRequirements: RecoveryRequirement[] = [
 export const materialMatches: MaterialMatch[] = [
   {
     id: 'MX-001',
-    passportBatchId: 'RB-2026-00391',
+    passportBatchId: DEMO_CODES.CG_STEEL_BEAMS,
     requirementId: 'RQ-2026-001',
     matchScore: 87,
     reasons: [
@@ -475,7 +476,7 @@ export const materialMatches: MaterialMatch[] = [
   },
   {
     id: 'MX-002',
-    passportBatchId: 'RB-2026-00448',
+    passportBatchId: DEMO_CODES.MH_CONCRETE,
     requirementId: 'RQ-2026-002',
     matchScore: 94,
     reasons: [
@@ -491,7 +492,7 @@ export const materialMatches: MaterialMatch[] = [
   },
   {
     id: 'MX-003',
-    passportBatchId: 'RB-2026-00517',
+    passportBatchId: DEMO_CODES.CG_TIMBER,
     requirementId: 'RQ-2026-003',
     matchScore: 62,
     reasons: [
@@ -540,25 +541,25 @@ export const recoveryOperations: RecoveryOperation[] = [
   },
   {
     id: 'OP-INSP-482',
-    name: 'Inspect Steel Batch RB-2026-00482',
+    name: `Inspect Steel Batch ${DEMO_CODES.CG_STEEL}`,
     type: 'INSPECTION',
     priority: 'HIGH',
     status: 'IN_PROGRESS',
     assignedTeam: 'Engineering Inspection Unit',
-    relatedBatchId: 'RB-2026-00482',
+    relatedBatchId: DEMO_CODES.CG_STEEL,
     startDate: '2026-09-15T09:00:00Z',
     estimatedCompletion: '2026-09-15T17:00:00Z',
     progressPercent: 50,
-    description: 'Visual inspection and preliminary assessment of steel sections from Site RB-DS-014.',
+    description: `Visual inspection and preliminary assessment of steel sections from Site RB-DS-014.`,
   },
   {
     id: 'OP-INSP-602',
-    name: 'Inspect Brick Batch RB-2026-00602',
+    name: `Inspect Brick Batch ${DEMO_CODES.MP_BRICK}`,
     type: 'INSPECTION',
     priority: 'HIGH',
     status: 'PLANNED',
     assignedTeam: 'Inspection Unit 02',
-    relatedBatchId: 'RB-2026-00602',
+    relatedBatchId: DEMO_CODES.MP_BRICK,
     startDate: '2026-09-16T08:00:00Z',
     estimatedCompletion: '2026-09-16T16:00:00Z',
     progressPercent: 0,
@@ -566,12 +567,12 @@ export const recoveryOperations: RecoveryOperation[] = [
   },
   {
     id: 'OP-REC-391',
-    name: 'Transport Steel Batch RB-2026-00391',
+    name: `Transport Steel Batch ${DEMO_CODES.CG_STEEL_BEAMS}`,
     type: 'TRANSPORT',
     priority: 'HIGH',
     status: 'PLANNED',
     assignedTeam: 'Recovery Logistics Team',
-    relatedBatchId: 'RB-2026-00391',
+    relatedBatchId: DEMO_CODES.CG_STEEL_BEAMS,
     startDate: '2026-09-16T07:00:00Z',
     estimatedCompletion: '2026-09-16T12:00:00Z',
     progressPercent: 0,
@@ -592,12 +593,12 @@ export const recoveryOperations: RecoveryOperation[] = [
   },
   {
     id: 'OP-PROC-448',
-    name: 'Process Concrete Batch RB-2026-00448',
+    name: `Process Concrete Batch ${DEMO_CODES.MH_CONCRETE}`,
     type: 'RECOVERY',
     priority: 'MEDIUM',
     status: 'IN_PROGRESS',
     assignedTeam: 'Processing Facility Team',
-    relatedBatchId: 'RB-2026-00448',
+    relatedBatchId: DEMO_CODES.MH_CONCRETE,
     startDate: '2026-09-15T13:00:00Z',
     estimatedCompletion: '2026-09-17T17:00:00Z',
     progressPercent: 15,
@@ -638,11 +639,11 @@ export const notifications: AppNotification[] = [
   {
     id: 'N-004',
     level: 'WARNING',
-    title: 'Hazmat Flag: Batch RB-2026-00581',
+    title: `Hazmat Flag: Batch ${DEMO_CODES.OD_WASTE}`,
     message: 'Mixed plastic/waste batch from Sector D-6 flagged as potentially hazardous. Specialist assessment required.',
     timestamp: '2026-09-15T07:30:00Z',
     read: false,
-    relatedId: 'RB-2026-00581',
+    relatedId: DEMO_CODES.OD_WASTE,
     relatedType: 'BATCH',
   },
   {
@@ -657,20 +658,20 @@ export const notifications: AppNotification[] = [
     id: 'N-006',
     level: 'RECOVERY',
     title: 'Batch Approved for Reuse',
-    message: 'Steel Batch RB-2026-00391 has completed inspection and testing. Approved for specific reuse by District Engineering Officer.',
+    message: `Steel Batch ${DEMO_CODES.CG_STEEL_BEAMS} has completed inspection and testing. Approved for specific reuse by District Engineering Officer.`,
     timestamp: '2026-09-15T14:00:00Z',
     read: true,
-    relatedId: 'RB-2026-00391',
+    relatedId: DEMO_CODES.CG_STEEL_BEAMS,
     relatedType: 'BATCH',
   },
   {
     id: 'N-007',
     level: 'RECOVERY',
     title: 'Match Confirmed: Road Repair',
-    message: 'Concrete Batch RB-2026-00448 matched and confirmed for Road Repair Project RQ-2026-002.',
+    message: `Concrete Batch ${DEMO_CODES.MH_CONCRETE} matched and confirmed for Road Repair Project RQ-2026-002.`,
     timestamp: '2026-09-15T15:00:00Z',
     read: true,
-    relatedId: 'RB-2026-00448',
+    relatedId: DEMO_CODES.MH_CONCRETE,
     relatedType: 'BATCH',
   },
 ];

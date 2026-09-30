@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Layers, Search, AlertTriangle, Eye,
-  ClipboardCheck, Brain
+  ClipboardCheck, Brain, Video
 } from 'lucide-react';
 import { debrisSites } from '../data/mockData';
 import type { DebrisSite } from '../types';
@@ -10,6 +10,7 @@ import {
   Card, DemoBanner, PriorityBadge, InspectionBadge,
   AIDisclaimer, ConfidenceBar, Button
 } from '../components/ui';
+import DroneVideoUpload from '../components/DroneVideoUpload';
 
 export default function DebrisIntelligence() {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ export default function DebrisIntelligence() {
   const [priorityFilter, setPriorityFilter] = useState<string>('ALL');
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
   const [selected, setSelected] = useState<DebrisSite | null>(null);
+  const [showDroneUpload, setShowDroneUpload] = useState(false);
 
   const filtered = debrisSites.filter(s => {
     const matchSearch = search === '' ||
@@ -30,13 +32,30 @@ export default function DebrisIntelligence() {
   return (
     <div className="p-5 space-y-5">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-xl font-bold text-slate-100">Debris Intelligence</h1>
           <p className="text-xs text-slate-500 mt-0.5">AI-assisted debris site analysis — field verification required</p>
         </div>
-        <DemoBanner />
+        <div className="flex items-center gap-2 flex-wrap">
+          <Button
+            variant="warning"
+            size="sm"
+            icon={<Video className="w-3.5 h-3.5" />}
+            onClick={() => setShowDroneUpload(v => !v)}
+          >
+            {showDroneUpload ? 'Hide Drone Video' : 'Add Drone Video'}
+          </Button>
+          <DemoBanner />
+        </div>
       </div>
+
+      {/* Drone Video Upload panel */}
+      {showDroneUpload && (
+        <Card className="p-5">
+          <DroneVideoUpload />
+        </Card>
+      )}
 
       {/* Summary row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

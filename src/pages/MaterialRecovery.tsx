@@ -57,7 +57,7 @@ export default function MaterialRecovery() {
           <input
             value={search}
             onChange={e => setSearch(e.target.value)}
-            placeholder="Search by Batch ID, material or zone…"
+            placeholder="Search by Detection Code, material or zone…"
             className="w-full pl-8 pr-3 py-2 bg-[#0f2040] border border-slate-700/50 rounded-lg text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-blue-500/50"
           />
         </div>
@@ -82,7 +82,7 @@ export default function MaterialRecovery() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-slate-700/40">
-                <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Batch ID</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Detection Code</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Material</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Source</th>
                 <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Quantity</th>

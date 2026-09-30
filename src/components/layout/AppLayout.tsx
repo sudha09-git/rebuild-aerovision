@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Map, Layers, PackageSearch, FileText,
@@ -6,7 +6,7 @@ import {
   ChevronLeft, ChevronRight, Shield, AlertTriangle,
   User, LogOut, RefreshCw, Settings, Wifi, Clock
 } from 'lucide-react';
-import { notifications } from '../../data/mockData';
+import { notifications, salvagePassports, debrisSites } from '../../data/mockData';
 import type { UserProfile } from '../../types';
 
 const NAV_GROUPS = [
@@ -211,17 +211,7 @@ export default function AppLayout({ children, user, onLogout }: AppLayoutProps) 
             </div>
 
             {/* Search */}
-            <div className="relative hidden sm:block">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-slate-600" />
-              <input
-                type="text"
-                placeholder="Search…"
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                className="pl-7 pr-3 py-1.5 w-36 lg:w-44 rounded-lg text-xs text-slate-300 placeholder-slate-700 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 border border-slate-700/50 transition-all"
-                style={{ background: 'rgba(15,32,64,0.8)' }}
-              />
-            </div>
+            <GlobalSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} navigate={navigate} />
 
             {/* Refresh */}
             <button className="p-1.5 text-slate-600 hover:text-slate-300 hover:bg-slate-700/30 rounded-md transition-colors">
@@ -306,3 +296,100 @@ export default function AppLayout({ children, user, onLogout }: AppLayoutProps) 
     </div>
   );
 }
+
+// ─── Global Search Component ─────────────────────────────────
+function GlobalSearch({
+  searchQuery, setSearchQuery, navigate
+}: {
+  searchQuery: string;
+  setSearchQuery: (v: string) => void;
+  navigate: ReturnType<typeof useNavigate>;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Close on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  const q = searchQuery.toLowerCase().trim();
+
+  const passportResults = q.length >= 2
+    ? salvagePassports.filter(p =>
+        p.batchId.toLowerCase().includes(q) ||
+        p.material.toLowerCase().includes(q) ||
+        p.zone.toLowerCase().includes(q) ||
+        p.sourceDebrisSiteId.toLowerCase().includes(q)
+      ).slice(0, 4)
+    : [];
+
+  const siteResults = q.length >= 2
+    ? debrisSites.filter(s =>
+        s.id.toLowerCase().includes(q) ||
+        s.zone.toLowerCase().includes(q)
+      ).slice(0, 3)
+    : [];
+
+  const hasResults = passportResults.length > 0 || siteResults.length > 0;
+
+  return (
+    <div ref={ref} className="relative hidden sm:block">
+      <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-slate-600 z-10" />
+      <input
+        type="text"
+        placeholder="Search Detection Code, site…"
+        value={searchQuery}
+        onChange={e => { setSearchQuery(e.target.value); setOpen(true); }}
+        onFocus={() => setOpen(true)}
+        className="pl-7 pr-3 py-1.5 w-48 lg:w-56 rounded-lg text-xs text-slate-300 placeholder-slate-700 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 border border-slate-700/50 transition-all"
+        style={{ background: 'rgba(15,32,64,0.8)' }}
+      />
+      {open && hasResults && (
+        <div className="absolute right-0 top-full mt-1.5 w-72 bg-[#0a1628] border border-slate-700/60 rounded-xl shadow-2xl z-50 overflow-hidden">
+          {passportResults.length > 0 && (
+            <>
+              <div className="px-3 py-1.5 text-[10px] font-bold text-slate-600 uppercase tracking-wide border-b border-slate-700/30">Salvage Passports</div>
+              {passportResults.map(p => (
+                <button
+                  key={p.batchId}
+                  className="w-full flex items-start gap-2.5 px-3 py-2.5 hover:bg-slate-700/30 transition-colors text-left"
+                  onClick={() => { navigate('/passports'); setOpen(false); setSearchQuery(''); }}
+                >
+                  <FileText className="w-3.5 h-3.5 text-orange-400 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <div className="text-xs font-mono font-bold text-orange-300">{p.batchId}</div>
+                    <div className="text-xs text-slate-400">{p.material} · {p.zone}</div>
+                  </div>
+                </button>
+              ))}
+            </>
+          )}
+          {siteResults.length > 0 && (
+            <>
+              <div className="px-3 py-1.5 text-[10px] font-bold text-slate-600 uppercase tracking-wide border-b border-slate-700/30 border-t border-slate-700/30">Debris Sites</div>
+              {siteResults.map(s => (
+                <button
+                  key={s.id}
+                  className="w-full flex items-start gap-2.5 px-3 py-2.5 hover:bg-slate-700/30 transition-colors text-left"
+                  onClick={() => { navigate('/debris'); setOpen(false); setSearchQuery(''); }}
+                >
+                  <Layers className="w-3.5 h-3.5 text-blue-400 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <div className="text-xs font-mono font-bold text-slate-200">{s.id}</div>
+                    <div className="text-xs text-slate-400">{s.zone}</div>
+                  </div>
+                </button>
+              ))}
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
