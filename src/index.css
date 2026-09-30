@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@import "tailwindcss";
+
+:root {
+  --navy-950: #050d1a;
+  --navy-900: #0a1628;
+  --navy-800: #0f2040;
+  --navy-700: #162a54;
+  --navy-600: #1e3a6e;
+  --navy-500: #2a4f96;
+  --accent-orange: #f97316;
+  --accent-amber: #f59e0b;
+  --accent-green: #10b981;
+  --accent-red: #ef4444;
+  --accent-blue: #3b82f6;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --border-subtle: rgba(148, 163, 184, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--navy-950);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--navy-900);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--navy-600);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--navy-500);
+}
+
+/* Leaflet Map Dark Theme */
+.leaflet-container {
+  background: #0a1628 !important;
+  font-family: 'Inter', sans-serif;
+}
+
+.leaflet-tile-pane {
+  filter: brightness(0.7) saturate(0.6) hue-rotate(200deg);
+}
+
+.custom-map-marker {
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  animation: pulse-marker 2s ease-in-out infinite;
+}
+
+@keyframes pulse-marker {
+  0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+  50% { box-shadow: 0 2px 16px rgba(255,255,255,0.2); }
+}
+
+.leaflet-popup-content-wrapper {
+  background: #0f2040 !important;
+  border: 1px solid rgba(148, 163, 184, 0.15) !important;
+  border-radius: 8px !important;
+  color: #f1f5f9 !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+}
+
+.leaflet-popup-tip {
+  background: #0f2040 !important;
+}
+
+.leaflet-popup-close-button {
+  color: #94a3b8 !important;
+}
+
+/* Status badge animations */
+.status-pulse {
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Mono font for IDs */
+.font-mono {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* Card hover */
+.card-hover {
+  transition: border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+/* Sidebar nav items */
+.nav-item {
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* Progress bar animation */
+.progress-bar {
+  transition: width 0.8s ease;
+}
+
+/* Timeline */
+.timeline-step-completed::before {
+  background: var(--accent-green);
+}
+
+/* QR code pattern */
+.qr-pattern {
+  image-rendering: pixelated;
+}
